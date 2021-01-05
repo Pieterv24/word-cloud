@@ -10,14 +10,14 @@ export class WordCloud extends ScopedElementsMixin(LitElement) {
     return {
       'lion-input': LionInput,
       'lion-button': LionButton,
-      'word-cloud-canvas': WordCloudCanvas
-    }
+      'word-cloud-canvas': WordCloudCanvas,
+    };
   }
 
   static get properties() {
     return {
-      words: { type: Array }
-    }
+      words: { type: Array },
+    };
   }
 
   static get styles() {
@@ -60,11 +60,26 @@ export class WordCloud extends ScopedElementsMixin(LitElement) {
     this.words = newArray;
   }
 
+  clearCloud() {
+    const canvas = this.shadowRoot.getElementById('canvas');
+    this.words = [];
+    canvas.clearCloud();
+  }
+
   render() {
     return html`
-      <word-cloud-canvas .words=${this.words} @removeWord=${this.removeWord}></word-cloud-canvas>
-      <lion-input @keypress=${this.detectEnter} id='input' label="woord"></lion-input>
+      <word-cloud-canvas
+        id="canvas"
+        .words=${this.words}
+        @removeWord=${this.removeWord}
+      ></word-cloud-canvas>
+      <lion-input
+        @keypress=${this.detectEnter}
+        id="input"
+        label="woord"
+      ></lion-input>
       <lion-button @click=${this.addWord}>Toevoegen</lion-button>
+      <lion-button @click=${this.clearCloud}>Leegmaken</lion-button>
     `;
   }
 }
